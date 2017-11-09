@@ -57,14 +57,14 @@ class Chart
     /**
      * X-Axis Label.
      *
-     * @var Chart\Title
+     * @var Chart\Title[]
      */
     private $xAxisLabel;
 
     /**
      * Y-Axis Label.
      *
-     * @var Chart\Title
+     * @var Chart\Title[]
      */
     private $yAxisLabel;
 
@@ -171,8 +171,8 @@ class Chart
         $this->name = $name;
         $this->title = $title;
         $this->legend = $legend;
-        $this->xAxisLabel = $xAxisLabel;
-        $this->yAxisLabel = $yAxisLabel;
+        $this->xAxisLabel = [$xAxisLabel];
+        $this->yAxisLabel = [$yAxisLabel];
         $this->plotArea = $plotArea;
         $this->plotVisibleOnly = $plotVisibleOnly;
         $this->displayBlanksAs = $displayBlanksAs;
@@ -269,9 +269,21 @@ class Chart
     /**
      * Get X-Axis Label.
      *
+     * @param int $index
+     *
      * @return Chart\Title
      */
-    public function getXAxisLabel()
+    public function getXAxisLabel($index = 0)
+    {
+        return isset($this->xAxisLabel[$index]) ? $this->xAxisLabel[$index] : null;
+    }
+
+    /**
+     * Get X-Axis Labels.
+
+     * @return array
+     */
+    public function getXAxisLabels()
     {
         return $this->xAxisLabel;
     }
@@ -280,12 +292,27 @@ class Chart
      * Set X-Axis Label.
      *
      * @param Chart\Title $label
+     * @param int $index
      *
      * @return Chart
      */
-    public function setXAxisLabel(Chart\Title $label)
+    public function setXAxisLabel(Chart\Title $label, $index = 0)
     {
-        $this->xAxisLabel = $label;
+        $this->xAxisLabel[$index] = $label;
+
+        return $this;
+    }
+
+    /**
+     * Set X-Axis Labels.
+     *
+     * @param Chart\Title[] $labels
+     *
+     * @return Chart
+     */
+    public function setXAxisLabels(array $labels)
+    {
+        $this->xAxisLabel = $labels;
 
         return $this;
     }
@@ -293,9 +320,21 @@ class Chart
     /**
      * Get Y-Axis Label.
      *
+     * @param int $index
+     *
      * @return Chart\Title
      */
-    public function getYAxisLabel()
+    public function getYAxisLabel($index = 0)
+    {
+        return isset($this->yAxisLabel[$index]) ? $this->yAxisLabel[$index] : null;
+    }
+
+    /**
+     * Get Y-Axis Labels.
+
+     * @return array
+     */
+    public function getYAxisLabels()
     {
         return $this->yAxisLabel;
     }
@@ -304,12 +343,27 @@ class Chart
      * Set Y-Axis Label.
      *
      * @param Chart\Title $label
+     * @param int $index
      *
      * @return Chart
      */
-    public function setYAxisLabel(Chart\Title $label)
+    public function setYAxisLabel(Chart\Title $label, $index = 0)
     {
-        $this->yAxisLabel = $label;
+        $this->yAxisLabel[$index] = $label;
+
+        return $this;
+    }
+
+    /**
+     * Set Y-Axis Labels.
+     *
+     * @param Chart\Title[] $labels
+     *
+     * @return Chart
+     */
+    public function setYAxisLabels(array $labels)
+    {
+        $this->yAxisLabel = $labels;
 
         return $this;
     }

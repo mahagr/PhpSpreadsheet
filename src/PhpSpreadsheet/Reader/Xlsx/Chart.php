@@ -79,7 +79,8 @@ class Chart
         $namespacesChartMeta = $chartElements->getNamespaces(true);
         $chartElementsC = $chartElements->children($namespacesChartMeta['c']);
 
-        $XaxisLabel = $YaxisLabel = $legend = $title = null;
+        $XaxisLabels = $YaxisLabels = [];
+        $legend = $title = null;
         $dispBlanksAs = $plotVisOnly = null;
 
         foreach ($chartElementsC as $chartElementKey => $chartElement) {
@@ -98,17 +99,17 @@ class Chart
                                             break;
                                         case 'catAx':
                                             if (isset($chartDetail->title)) {
-                                                $XaxisLabel = self::chartTitle($chartDetail->title->children($namespacesChartMeta['c']), $namespacesChartMeta);
+                                                $XaxisLabels[] = self::chartTitle($chartDetail->title->children($namespacesChartMeta['c']), $namespacesChartMeta);
                                             }
                                             break;
                                         case 'dateAx':
                                             if (isset($chartDetail->title)) {
-                                                $XaxisLabel = self::chartTitle($chartDetail->title->children($namespacesChartMeta['c']), $namespacesChartMeta);
+                                                $XaxisLabels[] = self::chartTitle($chartDetail->title->children($namespacesChartMeta['c']), $namespacesChartMeta);
                                             }
                                             break;
                                         case 'valAx':
                                             if (isset($chartDetail->title)) {
-                                                $YaxisLabel = self::chartTitle($chartDetail->title->children($namespacesChartMeta['c']), $namespacesChartMeta);
+                                                $YaxisLabels[] = self::chartTitle($chartDetail->title->children($namespacesChartMeta['c']), $namespacesChartMeta);
                                             }
                                             break;
                                         case 'barChart':
@@ -211,7 +212,8 @@ class Chart
                     }
             }
         }
-        $chart = new \PhpOffice\PhpSpreadsheet\Chart($chartName, $title, $legend, $plotArea, $plotVisOnly, $dispBlanksAs, $XaxisLabel, $YaxisLabel);
+        $chart = new \PhpOffice\PhpSpreadsheet\Chart($chartName, $title, $legend, $plotArea, $plotVisOnly, $dispBlanksAs);
+        $chart->setXAxisLabels($XaxisLabels)->setYAxisLabels($YaxisLabels);
 
         return $chart;
     }

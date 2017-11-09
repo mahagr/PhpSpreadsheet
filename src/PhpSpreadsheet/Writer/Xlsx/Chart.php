@@ -95,7 +95,7 @@ class Chart extends WriterPart
         $objWriter->writeAttribute('val', 0);
         $objWriter->endElement();
 
-        $this->writePlotArea($objWriter, $pChart->getWorksheet(), $pChart->getPlotArea(), $pChart->getXAxisLabel(), $pChart->getYAxisLabel(), $pChart->getChartAxisX(), $pChart->getChartAxisY(), $pChart->getMajorGridlines(), $pChart->getMinorGridlines());
+        $this->writePlotArea($objWriter, $pChart->getWorksheet(), $pChart->getPlotArea(), $pChart->getXAxisLabels(), $pChart->getYAxisLabels(), $pChart->getChartAxisX(), $pChart->getChartAxisY(), $pChart->getMajorGridlines(), $pChart->getMinorGridlines());
 
         $this->writeLegend($objWriter, $pChart->getLegend());
 
@@ -223,14 +223,14 @@ class Chart extends WriterPart
      * @param XMLWriter $objWriter XML Writer
      * @param \PhpOffice\PhpSpreadsheet\Worksheet $pSheet
      * @param PlotArea $plotArea
-     * @param Title $xAxisLabel
-     * @param Title $yAxisLabel
+     * @param array $xAxisLabels
+     * @param array $yAxisLabels
      * @param Axis $xAxis
      * @param Axis $yAxis
      *
      * @throws WriterException
      */
-    private function writePlotArea(XMLWriter $objWriter, \PhpOffice\PhpSpreadsheet\Worksheet $pSheet, PlotArea $plotArea, Title $xAxisLabel = null, Title $yAxisLabel = null, Axis $xAxis = null, Axis $yAxis = null, GridLines $majorGridlines = null, GridLines $minorGridlines = null)
+    private function writePlotArea(XMLWriter $objWriter, \PhpOffice\PhpSpreadsheet\Worksheet $pSheet, PlotArea $plotArea, array $xAxisLabels = null, array $yAxisLabels = null, Axis $xAxis = null, Axis $yAxis = null, GridLines $majorGridlines = null, GridLines $minorGridlines = null)
     {
         if (is_null($plotArea)) {
             return;
@@ -342,12 +342,12 @@ class Chart extends WriterPart
 
         if (($chartType !== DataSeries::TYPE_PIECHART) && ($chartType !== DataSeries::TYPE_PIECHART_3D) && ($chartType !== DataSeries::TYPE_DONUTCHART)) {
             if ($chartType === DataSeries::TYPE_BUBBLECHART) {
-                $this->writeValueAxis($objWriter, $plotArea, $xAxisLabel, $chartType, $id1, $id2, $catIsMultiLevelSeries, $xAxis, $yAxis, $majorGridlines, $minorGridlines);
+                $this->writeValueAxis($objWriter, $plotArea, $xAxisLabels[0] ?? null, $chartType, $id1, $id2, $catIsMultiLevelSeries, $xAxis, $yAxis, $majorGridlines, $minorGridlines);
             } else {
-                $this->writeCategoryAxis($objWriter, $plotArea, $xAxisLabel, $chartType, $id1, $id2, $catIsMultiLevelSeries, $xAxis, $yAxis);
+                $this->writeCategoryAxis($objWriter, $plotArea, $xAxisLabels[0] ?? null, $chartType, $id1, $id2, $catIsMultiLevelSeries, $xAxis, $yAxis);
             }
 
-            $this->writeValueAxis($objWriter, $plotArea, $yAxisLabel, $chartType, $id1, $id2, $valIsMultiLevelSeries, $xAxis, $yAxis, $majorGridlines, $minorGridlines);
+            $this->writeValueAxis($objWriter, $plotArea, $yAxisLabels[0] ?? null, $chartType, $id1, $id2, $valIsMultiLevelSeries, $xAxis, $yAxis, $majorGridlines, $minorGridlines);
         }
 
         $objWriter->endElement();
